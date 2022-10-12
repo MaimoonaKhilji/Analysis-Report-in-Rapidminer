@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8"?><process version="9.10.001">
+  <context>
+    <input/>
+    <output/>
+    <macros/>
+  </context>
+  <operator activated="true" class="process" compatibility="9.10.001" expanded="true" name="Process">
+    <parameter key="logverbosity" value="init"/>
+    <parameter key="random_seed" value="2001"/>
+    <parameter key="send_mail" value="never"/>
+    <parameter key="notification_email" value=""/>
+    <parameter key="process_duration_for_mail" value="30"/>
+    <parameter key="encoding" value="SYSTEM"/>
+    <process expanded="true">
+      <operator activated="true" class="retrieve" compatibility="9.10.001" expanded="true" height="68" name="Retrieve Products" width="90" x="380" y="85">
+        <parameter key="repository_entry" value="//Samples/data/Products"/>
+      </operator>
+      <operator activated="true" class="retrieve" compatibility="9.10.001" expanded="true" height="68" name="Retrieve Transactions" width="90" x="380" y="187">
+        <parameter key="repository_entry" value="//Samples/data/Transactions"/>
+      </operator>
+      <operator activated="true" class="concurrency:join" compatibility="9.10.001" expanded="true" height="82" name="Join" width="90" x="514" y="136">
+        <parameter key="remove_double_attributes" value="true"/>
+        <parameter key="join_type" value="inner"/>
+        <parameter key="use_id_attribute_as_key" value="false"/>
+        <list key="key_attributes">
+          <parameter key="Product ID" value="Product ID"/>
+        </list>
+        <parameter key="keep_both_join_attributes" value="false"/>
+      </operator>
+      <operator activated="true" class="aggregate" compatibility="9.10.001" expanded="true" height="82" name="Aggregate" width="90" x="648" y="136">
+        <parameter key="use_default_aggregation" value="false"/>
+        <parameter key="attribute_filter_type" value="all"/>
+        <parameter key="attribute" value=""/>
+        <parameter key="attributes" value=""/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="attribute_value"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="time"/>
+        <parameter key="block_type" value="attribute_block"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="value_matrix_row_start"/>
+        <parameter key="invert_selection" value="false"/>
+        <parameter key="include_special_attributes" value="false"/>
+        <parameter key="default_aggregation_function" value="average"/>
+        <list key="aggregation_attributes">
+          <parameter key="Amount" value="sum"/>
+        </list>
+        <parameter key="group_by_attributes" value="Customer ID"/>
+        <parameter key="count_all_combinations" value="false"/>
+        <parameter key="only_distinct" value="false"/>
+        <parameter key="ignore_missings" value="true"/>
+      </operator>
+      <operator activated="true" class="blending:sort" compatibility="9.10.001" expanded="true" height="82" name="Sort" width="90" x="782" y="136">
+        <list key="sort_by">
+          <parameter key="sum(Amount)" value="descending"/>
+        </list>
+      </operator>
+      <operator activated="true" class="retrieve" compatibility="9.10.001" expanded="true" height="68" name="Retrieve Products (2)" width="90" x="380" y="289">
+        <parameter key="repository_entry" value="//Samples/data/Products"/>
+      </operator>
+      <operator activated="true" class="retrieve" compatibility="9.10.001" expanded="true" height="68" name="Retrieve Transactions (2)" width="90" x="380" y="493">
+        <parameter key="repository_entry" value="//Samples/data/Transactions"/>
+      </operator>
+      <operator activated="true" class="concurrency:join" compatibility="9.10.001" expanded="true" height="82" name="Join (2)" width="90" x="447" y="391">
+        <parameter key="remove_double_attributes" value="true"/>
+        <parameter key="join_type" value="inner"/>
+        <parameter key="use_id_attribute_as_key" value="false"/>
+        <list key="key_attributes">
+          <parameter key="Product ID" value="Product ID"/>
+        </list>
+        <parameter key="keep_both_join_attributes" value="false"/>
+      </operator>
+      <operator activated="true" class="aggregate" compatibility="9.10.001" expanded="true" height="82" name="Aggregate (2)" width="90" x="581" y="391">
+        <parameter key="use_default_aggregation" value="false"/>
+        <parameter key="attribute_filter_type" value="all"/>
+        <parameter key="attribute" value=""/>
+        <parameter key="attributes" value=""/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="attribute_value"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="time"/>
+        <parameter key="block_type" value="attribute_block"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="value_matrix_row_start"/>
+        <parameter key="invert_selection" value="false"/>
+        <parameter key="include_special_attributes" value="false"/>
+        <parameter key="default_aggregation_function" value="average"/>
+        <list key="aggregation_attributes">
+          <parameter key="Amount" value="sum"/>
+        </list>
+        <parameter key="group_by_attributes" value="Customer ID"/>
+        <parameter key="count_all_combinations" value="false"/>
+        <parameter key="only_distinct" value="false"/>
+        <parameter key="ignore_missings" value="true"/>
+      </operator>
+      <operator activated="true" class="blending:sort" compatibility="9.10.001" expanded="true" height="82" name="Sort (2)" width="90" x="715" y="391">
+        <list key="sort_by">
+          <parameter key="sum(Amount)" value="descending"/>
+        </list>
+      </operator>
+      <operator activated="true" class="generate_attributes" compatibility="9.10.001" expanded="true" height="82" name="Generate Attributes" width="90" x="849" y="391">
+        <list key="function_descriptions">
+          <parameter key="Maximum" value="max([sum(Amount)])"/>
+        </list>
+        <parameter key="keep_all" value="true"/>
+      </operator>
+      <operator activated="true" class="filter_example_range" compatibility="9.10.001" expanded="true" height="82" name="Filter Example Range" width="90" x="983" y="391">
+        <parameter key="first_example" value="1"/>
+        <parameter key="last_example" value="1"/>
+        <parameter key="invert_filter" value="false"/>
+      </operator>
+      <operator activated="true" class="retrieve" compatibility="9.10.001" expanded="true" height="68" name="Retrieve Products (4)" width="90" x="380" y="595">
+        <parameter key="repository_entry" value="//Samples/data/Products"/>
+      </operator>
+      <operator activated="true" class="retrieve" compatibility="9.10.001" expanded="true" height="68" name="Retrieve Transactions (4)" width="90" x="380" y="697">
+        <parameter key="repository_entry" value="//Samples/data/Transactions"/>
+      </operator>
+      <operator activated="true" class="concurrency:join" compatibility="9.10.001" expanded="true" height="82" name="Join (4)" width="90" x="514" y="646">
+        <parameter key="remove_double_attributes" value="true"/>
+        <parameter key="join_type" value="inner"/>
+        <parameter key="use_id_attribute_as_key" value="false"/>
+        <list key="key_attributes">
+          <parameter key="Product ID" value="Product ID"/>
+        </list>
+        <parameter key="keep_both_join_attributes" value="false"/>
+      </operator>
+      <operator activated="true" class="generate_products" compatibility="9.10.001" expanded="true" height="82" name="Generate Products (2)" width="90" x="648" y="646">
+        <parameter key="first_attribute_name" value="Amount"/>
+        <parameter key="second_attribute_name" value="Price"/>
+      </operator>
+      <operator activated="true" class="aggregate" compatibility="9.10.001" expanded="true" height="82" name="Aggregate (4)" width="90" x="782" y="646">
+        <parameter key="use_default_aggregation" value="false"/>
+        <parameter key="attribute_filter_type" value="all"/>
+        <parameter key="attribute" value=""/>
+        <parameter key="attributes" value=""/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="attribute_value"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="time"/>
+        <parameter key="block_type" value="attribute_block"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="value_matrix_row_start"/>
+        <parameter key="invert_selection" value="false"/>
+        <parameter key="include_special_attributes" value="false"/>
+        <parameter key="default_aggregation_function" value="average"/>
+        <list key="aggregation_attributes">
+          <parameter key="(Amount) * (Price)" value="sum"/>
+        </list>
+        <parameter key="group_by_attributes" value="Customer ID|Product Name"/>
+        <parameter key="count_all_combinations" value="false"/>
+        <parameter key="only_distinct" value="false"/>
+        <parameter key="ignore_missings" value="true"/>
+      </operator>
+      <operator activated="true" class="blending:sort" compatibility="9.10.001" expanded="true" height="82" name="Sort (4)" width="90" x="916" y="646">
+        <list key="sort_by">
+          <parameter key="sum((Amount) * (Price))" value="descending"/>
+        </list>
+      </operator>
+      <operator activated="true" class="filter_example_range" compatibility="9.10.001" expanded="true" height="82" name="Filter Example Range (3)" width="90" x="1050" y="646">
+        <parameter key="first_example" value="1"/>
+        <parameter key="last_example" value="1"/>
+        <parameter key="invert_filter" value="false"/>
+      </operator>
+      <operator activated="true" class="retrieve" compatibility="9.10.001" expanded="true" height="68" name="Retrieve Products (5)" width="90" x="380" y="799">
+        <parameter key="repository_entry" value="//Samples/data/Products"/>
+      </operator>
+      <operator activated="true" class="retrieve" compatibility="9.10.001" expanded="true" height="68" name="Retrieve Transactions (5)" width="90" x="380" y="901">
+        <parameter key="repository_entry" value="//Samples/data/Transactions"/>
+      </operator>
+      <operator activated="true" class="concurrency:join" compatibility="9.10.001" expanded="true" height="82" name="Join (5)" width="90" x="514" y="850">
+        <parameter key="remove_double_attributes" value="true"/>
+        <parameter key="join_type" value="inner"/>
+        <parameter key="use_id_attribute_as_key" value="false"/>
+        <list key="key_attributes">
+          <parameter key="Product ID" value="Product ID"/>
+        </list>
+        <parameter key="keep_both_join_attributes" value="false"/>
+      </operator>
+      <operator activated="true" class="generate_products" compatibility="9.10.001" expanded="true" height="82" name="Generate Products (3)" width="90" x="648" y="850">
+        <parameter key="first_attribute_name" value="Amount"/>
+        <parameter key="second_attribute_name" value="Price"/>
+      </operator>
+      <operator activated="true" class="aggregate" compatibility="9.10.001" expanded="true" height="82" name="Aggregate (5)" width="90" x="782" y="850">
+        <parameter key="use_default_aggregation" value="false"/>
+        <parameter key="attribute_filter_type" value="all"/>
+        <parameter key="attribute" value=""/>
+        <parameter key="attributes" value=""/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="attribute_value"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="time"/>
+        <parameter key="block_type" value="attribute_block"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="value_matrix_row_start"/>
+        <parameter key="invert_selection" value="false"/>
+        <parameter key="include_special_attributes" value="false"/>
+        <parameter key="default_aggregation_function" value="average"/>
+        <list key="aggregation_attributes">
+          <parameter key="(Amount) * (Price)" value="sum"/>
+          <parameter key="Product Name" value="count"/>
+        </list>
+        <parameter key="group_by_attributes" value="Product Name"/>
+        <parameter key="count_all_combinations" value="false"/>
+        <parameter key="only_distinct" value="false"/>
+        <parameter key="ignore_missings" value="true"/>
+      </operator>
+      <operator activated="true" class="blending:sort" compatibility="9.10.001" expanded="true" height="82" name="Sort (5)" width="90" x="916" y="850">
+        <list key="sort_by">
+          <parameter key="sum((Amount) * (Price))" value="descending"/>
+        </list>
+      </operator>
+      <operator activated="true" class="filter_example_range" compatibility="9.10.001" expanded="true" height="82" name="Filter Example Range (4)" width="90" x="1050" y="850">
+        <parameter key="first_example" value="1"/>
+        <parameter key="last_example" value="1"/>
+        <parameter key="invert_filter" value="false"/>
+      </operator>
+      <operator activated="true" class="retrieve" compatibility="9.10.001" expanded="true" height="68" name="Retrieve Products (6)" width="90" x="380" y="1003">
+        <parameter key="repository_entry" value="//Samples/data/Products"/>
+      </operator>
+      <operator activated="true" class="retrieve" compatibility="9.10.001" expanded="true" height="68" name="Retrieve Transactions (6)" width="90" x="380" y="1105">
+        <parameter key="repository_entry" value="//Samples/data/Transactions"/>
+      </operator>
+      <operator activated="true" class="concurrency:join" compatibility="9.10.001" expanded="true" height="82" name="Join (6)" width="90" x="514" y="1054">
+        <parameter key="remove_double_attributes" value="true"/>
+        <parameter key="join_type" value="inner"/>
+        <parameter key="use_id_attribute_as_key" value="false"/>
+        <list key="key_attributes">
+          <parameter key="Product ID" value="Product ID"/>
+        </list>
+        <parameter key="keep_both_join_attributes" value="false"/>
+      </operator>
+      <operator activated="true" class="aggregate" compatibility="9.10.001" expanded="true" height="82" name="Aggregate (6)" width="90" x="648" y="1054">
+        <parameter key="use_default_aggregation" value="false"/>
+        <parameter key="attribute_filter_type" value="all"/>
+        <parameter key="attribute" value=""/>
+        <parameter key="attributes" value=""/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="attribute_value"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="time"/>
+        <parameter key="block_type" value="attribute_block"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="value_matrix_row_start"/>
+        <parameter key="invert_selection" value="false"/>
+        <parameter key="include_special_attributes" value="false"/>
+        <parameter key="default_aggregation_function" value="average"/>
+        <list key="aggregation_attributes">
+          <parameter key="Product Name" value="count"/>
+        </list>
+        <parameter key="group_by_attributes" value="Product Category"/>
+        <parameter key="count_all_combinations" value="false"/>
+        <parameter key="only_distinct" value="false"/>
+        <parameter key="ignore_missings" value="true"/>
+      </operator>
+      <operator activated="true" class="blending:sort" compatibility="9.10.001" expanded="true" height="82" name="Sort (6)" width="90" x="782" y="1054">
+        <list key="sort_by">
+          <parameter key="count(Product Name)" value="descending"/>
+        </list>
+      </operator>
+      <operator activated="true" class="retrieve" compatibility="9.10.001" expanded="true" height="68" name="Retrieve Products (7)" width="90" x="380" y="1258">
+        <parameter key="repository_entry" value="//Samples/data/Products"/>
+      </operator>
+      <operator activated="true" class="retrieve" compatibility="9.10.001" expanded="true" height="68" name="Retrieve Transactions (7)" width="90" x="380" y="1360">
+        <parameter key="repository_entry" value="//Samples/data/Transactions"/>
+      </operator>
+      <operator activated="true" class="concurrency:join" compatibility="9.10.001" expanded="true" height="82" name="Join (7)" width="90" x="514" y="1309">
+        <parameter key="remove_double_attributes" value="true"/>
+        <parameter key="join_type" value="inner"/>
+        <parameter key="use_id_attribute_as_key" value="false"/>
+        <list key="key_attributes">
+          <parameter key="Product ID" value="Product ID"/>
+        </list>
+        <parameter key="keep_both_join_attributes" value="false"/>
+      </operator>
+      <operator activated="true" class="generate_products" compatibility="9.10.001" expanded="true" height="82" name="Generate Products (4)" width="90" x="648" y="1309">
+        <parameter key="first_attribute_name" value="Amount"/>
+        <parameter key="second_attribute_name" value="Price"/>
+      </operator>
+      <operator activated="true" class="aggregate" compatibility="9.10.001" expanded="true" height="82" name="Aggregate (7)" width="90" x="782" y="1309">
+        <parameter key="use_default_aggregation" value="false"/>
+        <parameter key="attribute_filter_type" value="all"/>
+        <parameter key="attribute" value=""/>
+        <parameter key="attributes" value=""/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="attribute_value"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="time"/>
+        <parameter key="block_type" value="attribute_block"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="value_matrix_row_start"/>
+        <parameter key="invert_selection" value="false"/>
+        <parameter key="include_special_attributes" value="false"/>
+        <parameter key="default_aggregation_function" value="average"/>
+        <list key="aggregation_attributes">
+          <parameter key="(Amount) * (Price)" value="sum"/>
+          <parameter key="Product Name" value="count"/>
+        </list>
+        <parameter key="group_by_attributes" value="Product Name"/>
+        <parameter key="count_all_combinations" value="false"/>
+        <parameter key="only_distinct" value="false"/>
+        <parameter key="ignore_missings" value="true"/>
+      </operator>
+      <operator activated="true" class="blending:sort" compatibility="9.10.001" expanded="true" height="82" name="Sort (7)" width="90" x="916" y="1309">
+        <list key="sort_by">
+          <parameter key="sum((Amount) * (Price))" value="descending"/>
+        </list>
+      </operator>
+      <operator activated="true" class="filter_example_range" compatibility="9.10.001" expanded="true" height="82" name="Filter Example Range (5)" width="90" x="1050" y="1309">
+        <parameter key="first_example" value="1"/>
+        <parameter key="last_example" value="5"/>
+        <parameter key="invert_filter" value="false"/>
+      </operator>
+      <operator activated="true" class="retrieve" compatibility="9.10.001" expanded="true" height="68" name="Retrieve Products (8)" width="90" x="380" y="1462">
+        <parameter key="repository_entry" value="//Samples/data/Products"/>
+      </operator>
+      <operator activated="true" class="retrieve" compatibility="9.10.001" expanded="true" height="68" name="Retrieve Transactions (8)" width="90" x="380" y="1564">
+        <parameter key="repository_entry" value="//Samples/data/Transactions"/>
+      </operator>
+      <operator activated="true" class="concurrency:join" compatibility="9.10.001" expanded="true" height="82" name="Join (8)" width="90" x="514" y="1513">
+        <parameter key="remove_double_attributes" value="true"/>
+        <parameter key="join_type" value="inner"/>
+        <parameter key="use_id_attribute_as_key" value="false"/>
+        <list key="key_attributes">
+          <parameter key="Product ID" value="Product ID"/>
+        </list>
+        <parameter key="keep_both_join_attributes" value="false"/>
+      </operator>
+      <operator activated="true" class="generate_products" compatibility="9.10.001" expanded="true" height="82" name="Generate Products (5)" width="90" x="648" y="1513">
+        <parameter key="first_attribute_name" value="Amount"/>
+        <parameter key="second_attribute_name" value="Price"/>
+      </operator>
+      <operator activated="true" class="aggregate" compatibility="9.10.001" expanded="true" height="82" name="Aggregate (8)" width="90" x="782" y="1513">
+        <parameter key="use_default_aggregation" value="false"/>
+        <parameter key="attribute_filter_type" value="all"/>
+        <parameter key="attribute" value=""/>
+        <parameter key="attributes" value=""/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="attribute_value"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="time"/>
+        <parameter key="block_type" value="attribute_block"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="value_matrix_row_start"/>
+        <parameter key="invert_selection" value="false"/>
+        <parameter key="include_special_attributes" value="false"/>
+        <parameter key="default_aggregation_function" value="average"/>
+        <list key="aggregation_attributes">
+          <parameter key="(Amount) * (Price)" value="sum"/>
+        </list>
+        <parameter key="group_by_attributes" value="Product Category"/>
+        <parameter key="count_all_combinations" value="false"/>
+        <parameter key="only_distinct" value="false"/>
+        <parameter key="ignore_missings" value="true"/>
+      </operator>
+      <operator activated="true" class="blending:sort" compatibility="9.10.001" expanded="true" height="82" name="Sort (8)" width="90" x="916" y="1513">
+        <list key="sort_by">
+          <parameter key="sum((Amount) * (Price))" value="descending"/>
+        </list>
+      </operator>
+      <operator activated="true" class="retrieve" compatibility="9.10.001" expanded="true" height="68" name="Retrieve Transactions (9)" width="90" x="380" y="1768">
+        <parameter key="repository_entry" value="//Samples/data/Transactions"/>
+      </operator>
+      <operator activated="true" class="retrieve" compatibility="9.10.001" expanded="true" height="68" name="Retrieve Products (9)" width="90" x="380" y="1666">
+        <parameter key="repository_entry" value="//Samples/data/Products"/>
+      </operator>
+      <operator activated="true" class="concurrency:join" compatibility="9.10.001" expanded="true" height="82" name="Join (9)" width="90" x="514" y="1717">
+        <parameter key="remove_double_attributes" value="true"/>
+        <parameter key="join_type" value="inner"/>
+        <parameter key="use_id_attribute_as_key" value="false"/>
+        <list key="key_attributes">
+          <parameter key="Product ID" value="Product ID"/>
+        </list>
+        <parameter key="keep_both_join_attributes" value="false"/>
+      </operator>
+      <operator activated="true" class="generate_products" compatibility="9.10.001" expanded="true" height="82" name="Generate Products (6)" width="90" x="648" y="1717">
+        <parameter key="first_attribute_name" value="Amount"/>
+        <parameter key="second_attribute_name" value="Price"/>
+      </operator>
+      <operator activated="true" class="aggregate" compatibility="9.10.001" expanded="true" height="82" name="Aggregate (9)" width="90" x="782" y="1717">
+        <parameter key="use_default_aggregation" value="false"/>
+        <parameter key="attribute_filter_type" value="all"/>
+        <parameter key="attribute" value=""/>
+        <parameter key="attributes" value=""/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="attribute_value"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="time"/>
+        <parameter key="block_type" value="attribute_block"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="value_matrix_row_start"/>
+        <parameter key="invert_selection" value="false"/>
+        <parameter key="include_special_attributes" value="false"/>
+        <parameter key="default_aggregation_function" value="average"/>
+        <list key="aggregation_attributes">
+          <parameter key="(Amount) * (Price)" value="sum"/>
+        </list>
+        <parameter key="group_by_attributes" value="Product Category|Product Name"/>
+        <parameter key="count_all_combinations" value="false"/>
+        <parameter key="only_distinct" value="false"/>
+        <parameter key="ignore_missings" value="true"/>
+      </operator>
+      <operator activated="true" class="generate_attributes" compatibility="9.10.001" expanded="true" height="82" name="Generate Attributes (3)" width="90" x="916" y="1717">
+        <list key="function_descriptions">
+          <parameter key="rounded value" value="round([sum((Amount) * (Price))])"/>
+        </list>
+        <parameter key="keep_all" value="true"/>
+      </operator>
+      <operator activated="true" class="blending:sort" compatibility="9.10.001" expanded="true" height="82" name="Sort (9)" width="90" x="1050" y="1717">
+        <list key="sort_by">
+          <parameter key="sum((Amount) * (Price))" value="descending"/>
+        </list>
+      </operator>
+      <operator activated="true" class="filter_example_range" compatibility="9.10.001" expanded="true" height="82" name="Filter Example Range (6)" width="90" x="1184" y="1717">
+        <parameter key="first_example" value="1"/>
+        <parameter key="last_example" value="1"/>
+        <parameter key="invert_filter" value="false"/>
+      </operator>
+      <connect from_op="Retrieve Products" from_port="output" to_op="Join" to_port="left"/>
+      <connect from_op="Retrieve Transactions" from_port="output" to_op="Join" to_port="right"/>
+      <connect from_op="Join" from_port="join" to_op="Aggregate" to_port="example set input"/>
+      <connect from_op="Aggregate" from_port="example set output" to_op="Sort" to_port="example set input"/>
+      <connect from_op="Retrieve Products (2)" from_port="output" to_op="Join (2)" to_port="left"/>
+      <connect from_op="Retrieve Transactions (2)" from_port="output" to_op="Join (2)" to_port="right"/>
+      <connect from_op="Join (2)" from_port="join" to_op="Aggregate (2)" to_port="example set input"/>
+      <connect from_op="Aggregate (2)" from_port="example set output" to_op="Sort (2)" to_port="example set input"/>
+      <connect from_op="Sort (2)" from_port="example set output" to_op="Generate Attributes" to_port="example set input"/>
+      <connect from_op="Generate Attributes" from_port="example set output" to_op="Filter Example Range" to_port="example set input"/>
+      <connect from_op="Retrieve Products (4)" from_port="output" to_op="Join (4)" to_port="left"/>
+      <connect from_op="Retrieve Transactions (4)" from_port="output" to_op="Join (4)" to_port="right"/>
+      <connect from_op="Join (4)" from_port="join" to_op="Generate Products (2)" to_port="example set input"/>
+      <connect from_op="Generate Products (2)" from_port="example set output" to_op="Aggregate (4)" to_port="example set input"/>
+      <connect from_op="Aggregate (4)" from_port="example set output" to_op="Sort (4)" to_port="example set input"/>
+      <connect from_op="Sort (4)" from_port="example set output" to_op="Filter Example Range (3)" to_port="example set input"/>
+      <connect from_op="Retrieve Products (5)" from_port="output" to_op="Join (5)" to_port="left"/>
+      <connect from_op="Retrieve Transactions (5)" from_port="output" to_op="Join (5)" to_port="right"/>
+      <connect from_op="Join (5)" from_port="join" to_op="Generate Products (3)" to_port="example set input"/>
+      <connect from_op="Generate Products (3)" from_port="example set output" to_op="Aggregate (5)" to_port="example set input"/>
+      <connect from_op="Aggregate (5)" from_port="example set output" to_op="Sort (5)" to_port="example set input"/>
+      <connect from_op="Sort (5)" from_port="example set output" to_op="Filter Example Range (4)" to_port="example set input"/>
+      <connect from_op="Retrieve Products (6)" from_port="output" to_op="Join (6)" to_port="left"/>
+      <connect from_op="Retrieve Transactions (6)" from_port="output" to_op="Join (6)" to_port="right"/>
+      <connect from_op="Join (6)" from_port="join" to_op="Aggregate (6)" to_port="example set input"/>
+      <connect from_op="Aggregate (6)" from_port="example set output" to_op="Sort (6)" to_port="example set input"/>
+      <connect from_op="Retrieve Products (7)" from_port="output" to_op="Join (7)" to_port="left"/>
+      <connect from_op="Retrieve Transactions (7)" from_port="output" to_op="Join (7)" to_port="right"/>
+      <connect from_op="Join (7)" from_port="join" to_op="Generate Products (4)" to_port="example set input"/>
+      <connect from_op="Generate Products (4)" from_port="example set output" to_op="Aggregate (7)" to_port="example set input"/>
+      <connect from_op="Aggregate (7)" from_port="example set output" to_op="Sort (7)" to_port="example set input"/>
+      <connect from_op="Sort (7)" from_port="example set output" to_op="Filter Example Range (5)" to_port="example set input"/>
+      <connect from_op="Retrieve Products (8)" from_port="output" to_op="Join (8)" to_port="left"/>
+      <connect from_op="Retrieve Transactions (8)" from_port="output" to_op="Join (8)" to_port="right"/>
+      <connect from_op="Join (8)" from_port="join" to_op="Generate Products (5)" to_port="example set input"/>
+      <connect from_op="Generate Products (5)" from_port="example set output" to_op="Aggregate (8)" to_port="example set input"/>
+      <connect from_op="Aggregate (8)" from_port="example set output" to_op="Sort (8)" to_port="example set input"/>
+      <connect from_op="Retrieve Transactions (9)" from_port="output" to_op="Join (9)" to_port="right"/>
+      <connect from_op="Retrieve Products (9)" from_port="output" to_op="Join (9)" to_port="left"/>
+      <connect from_op="Join (9)" from_port="join" to_op="Generate Products (6)" to_port="example set input"/>
+      <connect from_op="Generate Products (6)" from_port="example set output" to_op="Aggregate (9)" to_port="example set input"/>
+      <connect from_op="Aggregate (9)" from_port="example set output" to_op="Generate Attributes (3)" to_port="example set input"/>
+      <connect from_op="Generate Attributes (3)" from_port="example set output" to_op="Sort (9)" to_port="example set input"/>
+      <connect from_op="Sort (9)" from_port="example set output" to_op="Filter Example Range (6)" to_port="example set input"/>
+      <portSpacing port="source_input 1" spacing="0"/>
+      <portSpacing port="sink_result 1" spacing="0"/>
+      <portSpacing port="sink_result 2" spacing="0"/>
+      <description align="left" color="yellow" colored="true" height="104" resized="false" width="179" x="146" y="140">1</description>
+      <description align="left" color="yellow" colored="false" height="104" resized="false" width="179" x="146" y="380">2</description>
+      <description align="left" color="yellow" colored="false" height="104" resized="false" width="179" x="150" y="641">3</description>
+      <description align="left" color="yellow" colored="false" height="104" resized="false" width="179" x="158" y="842">4</description>
+      <description align="left" color="yellow" colored="false" height="104" resized="false" width="180" x="162" y="1040">5</description>
+      <description align="left" color="yellow" colored="false" height="104" resized="false" width="180" x="158" y="1312">6</description>
+      <description align="left" color="yellow" colored="false" height="104" resized="false" width="180" x="154" y="1496">7</description>
+      <description align="left" color="yellow" colored="false" height="104" resized="false" width="180" x="158" y="1696">8</description>
+    </process>
+  </operator>
+</process>
